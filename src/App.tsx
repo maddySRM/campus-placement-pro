@@ -127,9 +127,9 @@ function AuthScreen() {
           }
         });
         if (authError) throw authError;
-        setSuccess('Account created! You can now sign in.');
-        setMode('login');
-        setPassword('');
+        // Immediately sign in — no email confirmation step needed
+        const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+        if (signInError) throw signInError;
       } else {
         const { error: authError } = await supabase.auth.signInWithPassword({ email, password });
         if (authError) throw authError;
